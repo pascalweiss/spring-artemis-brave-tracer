@@ -1,0 +1,22 @@
+server:
+  http_listen_port: 3200
+  grpc_listen_port: 9095
+
+distributor:
+  receivers:
+    zipkin:
+      endpoint: "0.0.0.0:9411"  # Listen on port 9411 for Zipkin traces
+
+storage:
+  trace:
+    backend: local                  # Specify local storage explicitly
+
+    # The Write-Ahead Log (WAL) is a logging mechanism used to ensure data integrity. In the context of Tempo,
+    # the WAL is used to record changes to trace data before they are committed to the main storage.
+    #This helps in recovering data in case of a failure. The WAL stores these changes in a sequential log file,
+    #which can be replayed to reconstruct the state of the system.
+    wal:
+      path: /var/lib/tempo/wal
+    # indicates that the storage backend is local, meaning the data will be stored on the local filesystem.
+    local:
+      path: /var/lib/tempo/blocks    # Path for block storage

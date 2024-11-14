@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  activemq-artemis:
+    image: vromero/activemq-artemis
+    container_name: activemq-artemis
+    environment:
+      - ARTEMIS_USERNAME=admin
+      - ARTEMIS_PASSWORD=admin
+    ports:
+      - "61616:61616"   # Port for JMS (for your Spring application to connect)
+      - "8161:8161"     # Port for ActiveMQ Artemis web console
+    volumes:
+      - artemis-data:/var/lib/artemis/data
+
+volumes:
+  artemis-data:

@@ -1,0 +1,3 @@
+[submodule "grafana-tempo-docker-compose"]
+	path = grafana-tempo-docker-compose
+	url = git@github.com:pascalweiss/grafana-tempo-docker-compose.git

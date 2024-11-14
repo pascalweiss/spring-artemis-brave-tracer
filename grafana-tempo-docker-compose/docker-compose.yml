@@ -1,0 +1,25 @@
+services:
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION:-11.3.0}
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - tempo
+    volumes:
+      - ./provisioning/datasources:/etc/grafana/provisioning/datasources  # Mount the provisioning directory
+
+  tempo:
+    image: grafana/tempo:${TEMPO_VERSION:-2.6.1}
+    ports:
+      - "9411:9411"      # Zipkin-compatible endpoint. Zipkin clients can send traces to this endpoint.
+      - "3200:3200"      # Tempo query endpoint for Grafana. Grafana uses this endpoint to query Tempo for traces.
+    volumes:
+      - ./tempo-data:/var/lib/tempo
+      - ./tempo.yaml:/etc/tempo/tempo.yaml
+    command: [ "-config.file=/etc/tempo/tempo.yaml" ]
+
+volumes:
+  tempo-data:

@@ -1,0 +1,51 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'pw.examples'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// Foundation
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-artemis'
+
+	// no traces will be sent if this dependency is not added
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.projectlombok:lombok:1.18.24'
+
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '3.3.5'
+
+
+	// provides the brave tracer, which manages the lifecycle of a span.
+	// micrometer-tracing is added transitively. It provides a simple facade to most popular tracer libs
+	// and prevents vendor lock-in
+	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+	implementation 'io.zipkin.brave:brave-instrumentation-jms-jakarta:6.0.3'
+
+
+	// the exporter sends traces to a zipkin server, e.g. Grafana Tempo (port 9411 by default)
+	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
