@@ -1,6 +1,6 @@
 # Service with tracing and messaging
 
-This is a little project to demonstrate how to use tracing with messaging in a Spring Boot application.
+This is a little project to demonstrate how to use tracing with messaging in a Spring Boot app.
 The traces can be collected by a Grafana Tempo backend and visualized in a Grafana dashboard.
 
 ## How to run
